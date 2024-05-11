@@ -1,42 +1,14 @@
-<script setup>
-import axios from 'axios';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const form = ref({
-  email: '',
-  password: ''
-})
-
-const handleLogin =  async () => {
-
-  await axios.get('/sanctum/csrf-cookie')
-  await axios.post('/login', {
-    email: form.value.email,
-    password: form.value.password
-  })
-
-  router.push('/')
-}
-</script>
-
 <template>
   <div class="container">
     <div class="form-container">
-      <form @submit.prevent="handleLogin">
-        <h2>Sign in</h2>
+      <form>
+        <h2>Forgot password</h2>
         <div class="input-field">
-          <input type="text" placeholder="Email" v-model="form.email">
-        </div>
-        <div class="input-field">
-          <input type="password" placeholder="Password" v-model="form.password">
+          <input type="text" placeholder="Your Email">
         </div>
         <div class="submit-btn">
-          <button>Sign in</button>
+          <button>Continue</button>
         </div>
-        <router-link class="forgot-pwd" :to="{name: 'forgotpassword'}">Forgot pasword</router-link>
-        <div class="sign-up">Not yet a member? <router-link :to="{name: 'register'}">sign up</router-link></div>
       </form>
     </div>
   </div>

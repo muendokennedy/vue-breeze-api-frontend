@@ -3,7 +3,8 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 
-import './lib/axios.js'
+import './axios.js'
+
 import { createPinia } from 'pinia'
 import router from './router/index.js'
 
