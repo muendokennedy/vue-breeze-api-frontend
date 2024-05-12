@@ -1,10 +1,20 @@
+<script setup>
+import { ref } from 'vue'
+import { useAuthStore } from '../stores/auth'
+
+const authStore = useAuthStore()
+
+const email = ref('')
+
+</script>
+
 <template>
   <div class="container">
     <div class="form-container">
-      <form>
+      <form @submit.prevent="authStore.handleForgotPassword(email)">
         <h2>Forgot password</h2>
         <div class="input-field">
-          <input type="text" placeholder="Your Email">
+          <input type="text" placeholder="Your Email" v-model="email">
         </div>
         <div class="submit-btn">
           <button>Continue</button>
