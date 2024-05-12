@@ -1,35 +1,19 @@
 <script setup>
-import axios from 'axios';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'
-import { walk } from 'vue/compiler-sfc';
+import { useAuthStore } from '../stores/auth.js'
 
-const router = useRouter()
+const authStore = useAuthStore()
+
 const form = ref({
   email: '',
   password: ''
 })
-
-const getToken = async () => {
-  await axios.get('/sanctum/csrf-cookie')
-}
-
-const handleLogin =  async () => {
-
-  await  getToken()
-  await axios.post('/login', {
-    email: form.value.email,
-    password: form.value.password
-  })
-
-  router.push('/')
-}
 </script>
 
 <template>
   <div class="container">
     <div class="form-container">
-      <form @submit.prevent="handleLogin">
+      <form @submit.prevent="authStore.handleLogin(form)">
         <h2>Sign in</h2>
         <div class="input-field">
           <input type="text" placeholder="Email" v-model="form.email">

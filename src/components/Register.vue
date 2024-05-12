@@ -1,7 +1,8 @@
 <script setup>
-import axios from "axios";
 import {ref} from 'vue'
-import {useRouter} from 'vue-router'
+import { useAuthStore } from '../stores/auth.js'
+
+const authStore = useAuthStore()
 
 const form = ref({
   name: '',
@@ -10,29 +11,13 @@ const form = ref({
   password_confirmation: ''
 })
 
-const router = useRouter()
 
-const getToken = async () => {
-  await axios.get('/sanctum/csrf-cookie')
-}
-
-const handleRegister = async () => {
-  await  getToken()
-  await axios.post('/register', {
-    name: form.value.name,
-    email: form.value.email,
-    password: form.value.password,
-    password_confirmation: form.value.password_confirmation
-  })
-
-  router.push('/')
-} 
 </script>
 
 <template>
   <div class="container">
     <div class="form-container">
-      <form @submit.prevent="handleRegister">
+      <form @submit.prevent="authStore.handleRegister(form)">
         <h2>Create an account</h2>
         <div class="input-field">
           <input type="text" placeholder="Name" v-model="form.name">
