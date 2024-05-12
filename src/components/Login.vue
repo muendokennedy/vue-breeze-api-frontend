@@ -16,10 +16,16 @@ const form = ref({
       <form @submit.prevent="authStore.handleLogin(form)">
         <h2>Sign in</h2>
         <div class="input-field">
-          <input type="text" placeholder="Email" v-model="form.email" autocomplete="email">
+          <input type="text" placeholder="Email" v-model="form.email" autocomplete="email" :style="{borderColor: authStore.errors.email ? 'red' : 'initial'}">
+          <div v-if="authStore.errors.email">
+            <span class="error">{{ authStore.errors.email[0] }}</span>
+          </div>
         </div>
         <div class="input-field">
-          <input type="password" placeholder="Password" v-model="form.password" autocomplete="current-password">
+          <input type="password" placeholder="Password" v-model="form.password" autocomplete="current-password" :style="{borderColor: authStore.errors.password ? 'red' : 'initial'}">
+          <div v-if="authStore.errors.password">
+            <span class="error">{{ authStore.errors.password[0] }}</span>
+          </div>
         </div>
         <div class="submit-btn">
           <button>Sign in</button>
@@ -84,5 +90,10 @@ const form = ref({
 .sign-up{
   font-size: 15px;
   text-transform: capitalize;
+}
+.error{
+  color: red;
+  display: block;
+  width: 100%;
 }
 </style>

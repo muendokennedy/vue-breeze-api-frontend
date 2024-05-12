@@ -3,10 +3,12 @@ import axios from "axios";
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    authUser: null
+    authUser: null,
+    authErrors: []
   }),
   getters: {
-    user: (state) => state.authUser
+    user: (state) => state.authUser,
+    errors: (state) => state.authErrors
   },
   actions: {
     async getToken(){
@@ -18,23 +20,37 @@ export const useAuthStore = defineStore('auth', {
       this.authUser = data.data
     },
     async handleLogin(data){
-
+      this.authErrors = []
       await this.getToken()
-      await axios.post('/login', {
-        email: data.email,
-        password: data.password
-      })
-      this.router.push('/dashboard')
+      try {
+          await axios.post('/login', {
+          email: data.email,
+          password: data.password
+        })
+        this.router.push('/dashboard')
+      } catch (error) {
+        if(error.response.status === 422){
+          this.authErrors = error.response.data.errors
+        }
+      }
+      
     },
     async handleRegister(data){
+      this.authErrors = []
       await  this.getToken()
-      await axios.post('/register', {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        password_confirmation: data.password_confirmation
-      })
-      this.router.push('/dashboard')
+      try {
+        await axios.post('/register', {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          password_confirmation: data.password_confirmation
+        })
+        this.router.push('/dashboard')
+      } catch (error) {
+        if(error.response.status === 422){
+          this.authErrors = error.response.data.errors
+        }
+      }
     },
     async handleLogout(){
       await axios.post('/logout')
@@ -42,9 +58,17 @@ export const useAuthStore = defineStore('auth', {
       this.router.push('/')
     },
     async handleForgotPassword(email){
-      await axios.post('/forgot-password', {
-        email: email
-      })
+      this.authErrors = []
+      await this.getToken()
+      try {
+        await axios.post('/forgot-password', {
+          email: email
+        })
+      } catch (error) {
+        if(error.response.status === 422){
+          this.authErrors = error.response.data.errors
+        }
+      }
     }
   }
 })

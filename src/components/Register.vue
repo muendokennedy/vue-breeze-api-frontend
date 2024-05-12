@@ -20,13 +20,22 @@ const form = ref({
       <form @submit.prevent="authStore.handleRegister(form)">
         <h2>Create an account</h2>
         <div class="input-field">
-          <input type="text" placeholder="Name" v-model="form.name" autocomplete="name">
+          <input type="text" placeholder="Name" v-model="form.name" autocomplete="name" :style="{borderColor: authStore.errors.name ? 'red' : 'initial'}">
+          <div v-if="authStore.errors.name">
+            <span class="error">{{ authStore.errors.name[0] }}</span>
+          </div>
         </div>
         <div class="input-field">
-          <input type="text" placeholder="Email" v-model="form.email" autocomplete="email">
+          <input type="text" placeholder="Email" v-model="form.email" autocomplete="email" :style="{borderColor: authStore.errors.email ? 'red' : 'initial'}">
+          <div v-if="authStore.errors.email">
+            <span class="error">{{ authStore.errors.email[0] }}</span>
+          </div>
         </div>
         <div class="input-field">
-          <input type="password" placeholder="Password" v-model="form.password" autocomplete="new-password">
+          <input type="password" placeholder="Password" v-model="form.password" autocomplete="new-password" :style="{borderColor: authStore.errors.password ? 'red' : 'initial'}">
+          <div v-if="authStore.errors.password">
+            <span class="error">{{ authStore.errors.password[0] }}</span>
+          </div>
         </div>
         <div class="input-field">
           <input type="password" placeholder="Confirm Password" v-model="form.password_confirmation" autocomplete="new-password">
@@ -47,6 +56,7 @@ const form = ref({
   justify-content: center;
 }
 .form-container{
+  margin: 100px 0;
   width: 500px;
   border: 1px solid #3b3bd6;
   border-radius: 10px;
@@ -93,5 +103,10 @@ const form = ref({
 .sign-up{
   font-size: 15px;
   text-transform: capitalize;
+}
+.error{
+  color: red;
+  display: block;
+  width: 100%;
 }
 </style>

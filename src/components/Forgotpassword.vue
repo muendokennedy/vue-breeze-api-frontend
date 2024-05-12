@@ -14,7 +14,10 @@ const email = ref('')
       <form @submit.prevent="authStore.handleForgotPassword(email)">
         <h2>Forgot password</h2>
         <div class="input-field">
-          <input type="text" placeholder="Your Email" v-model="email">
+          <input type="text" placeholder="Your Email" v-model="email" :style="{borderColor: authStore.errors.email ? 'red' : 'initial'}">
+          <div v-if="authStore.errors.email">
+            <span class="error">{{ authStore.errors.email[0] }}</span>
+          </div>
         </div>
         <div class="submit-btn">
           <button>Continue</button>
@@ -77,5 +80,10 @@ const email = ref('')
 .sign-up{
   font-size: 15px;
   text-transform: capitalize;
+}
+.error{
+  color: red;
+  display: block;
+  width: 100%;
 }
 </style>
