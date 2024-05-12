@@ -1,16 +1,50 @@
+<script setup>
+import axios from "axios";
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
+
+const form = ref({
+  name: '',
+  email: '',
+  password: '',
+  password_confirmation: ''
+})
+
+const router = useRouter()
+
+const getToken = async () => {
+  await axios.get('/sanctum/csrf-cookie')
+}
+
+const handleRegister = async () => {
+  await  getToken()
+  await axios.post('/register', {
+    name: form.value.name,
+    email: form.value.email,
+    password: form.value.password,
+    password_confirmation: form.value.password_confirmation
+  })
+
+  router.push('/')
+} 
+</script>
+
 <template>
   <div class="container">
     <div class="form-container">
-      <form>
+      <form @submit.prevent="handleRegister">
         <h2>Create an account</h2>
         <div class="input-field">
-          <input type="text" placeholder="Name">
+          <input type="text" placeholder="Name" v-model="form.name">
         </div>
         <div class="input-field">
-          <input type="text" placeholder="Email">
+          <input type="text" placeholder="Email" v-model="form.email">
         </div>
         <div class="input-field">
-          <input type="password" placeholder="Password">
+          <input type="password" placeholder="Password" v-model="form.password">
+        </div>
+        <div class="input-field">
+          <input type="password" placeholder="Confirm Password" v-model="form.password_confirmation">
         </div>
         <div class="submit-btn">
           <button>Sign up</button>

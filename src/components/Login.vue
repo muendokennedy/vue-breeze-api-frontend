@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
+import { walk } from 'vue/compiler-sfc';
 
 const router = useRouter()
 const form = ref({
@@ -9,9 +10,13 @@ const form = ref({
   password: ''
 })
 
+const getToken = async () => {
+  await axios.get('/sanctum/csrf-cookie')
+}
+
 const handleLogin =  async () => {
 
-  await axios.get('/sanctum/csrf-cookie')
+  await  getToken()
   await axios.post('/login', {
     email: form.value.email,
     password: form.value.password
