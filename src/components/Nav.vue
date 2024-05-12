@@ -1,5 +1,9 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { useAuthStore } from '../stores/auth'
+
+const authStore = useAuthStore()
+
 </script>
 
 <template>
@@ -7,8 +11,13 @@ import { RouterLink } from 'vue-router';
     <div class="brand">Kenfrare</div>
     <div class="nav-links">
       <RouterLink :to="{name: 'home'}" class="link">Home</RouterLink>
-      <RouterLink :to="{name: 'register'}" class="link">Register</RouterLink>
-      <RouterLink :to="{name: 'login'}" class="link">Login</RouterLink>
+      <template v-if="!authStore.user">          
+        <RouterLink :to="{name: 'register'}" class="link">Register</RouterLink>
+        <RouterLink :to="{name: 'login'}" class="link">Login</RouterLink>
+      </template>
+      <template v-else>
+        <span @click="authStore.handleLogout" class="link">Logout</span>
+      </template>
     </div>
   </header>
 </template>
@@ -36,5 +45,6 @@ header{
 .nav-links .link{
   text-decoration: none;
   color: #fff;
+  cursor: pointer;
 }
 </style>

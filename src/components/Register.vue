@@ -20,16 +20,16 @@ const form = ref({
       <form @submit.prevent="authStore.handleRegister(form)">
         <h2>Create an account</h2>
         <div class="input-field">
-          <input type="text" placeholder="Name" v-model="form.name">
+          <input type="text" placeholder="Name" v-model="form.name" autocomplete="name">
         </div>
         <div class="input-field">
-          <input type="text" placeholder="Email" v-model="form.email">
+          <input type="text" placeholder="Email" v-model="form.email" autocomplete="email">
         </div>
         <div class="input-field">
-          <input type="password" placeholder="Password" v-model="form.password">
+          <input type="password" placeholder="Password" v-model="form.password" autocomplete="new-password">
         </div>
         <div class="input-field">
-          <input type="password" placeholder="Confirm Password" v-model="form.password_confirmation">
+          <input type="password" placeholder="Confirm Password" v-model="form.password_confirmation" autocomplete="new-password">
         </div>
         <div class="submit-btn">
           <button>Sign up</button>

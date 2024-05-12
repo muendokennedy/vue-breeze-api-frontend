@@ -16,10 +16,10 @@ const form = ref({
       <form @submit.prevent="authStore.handleLogin(form)">
         <h2>Sign in</h2>
         <div class="input-field">
-          <input type="text" placeholder="Email" v-model="form.email">
+          <input type="text" placeholder="Email" v-model="form.email" autocomplete="email">
         </div>
         <div class="input-field">
-          <input type="password" placeholder="Password" v-model="form.password">
+          <input type="password" placeholder="Password" v-model="form.password" autocomplete="current-password">
         </div>
         <div class="submit-btn">
           <button>Sign in</button>
