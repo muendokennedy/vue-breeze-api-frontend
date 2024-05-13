@@ -4,11 +4,13 @@ import axios from "axios";
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     authUser: null,
-    authErrors: []
+    authErrors: [],
+    authStatus: null,
   }),
   getters: {
     user: (state) => state.authUser,
-    errors: (state) => state.authErrors
+    errors: (state) => state.authErrors,
+    status: (state) => state.authStatus
   },
   actions: {
     async getToken(){
@@ -27,7 +29,8 @@ export const useAuthStore = defineStore('auth', {
           email: data.email,
           password: data.password
         })
-        this.router.push('/dashboard')
+        await this.getUser()
+        this.router.push('/')
       } catch (error) {
         if(error.response.status === 422){
           this.authErrors = error.response.data.errors
@@ -45,7 +48,8 @@ export const useAuthStore = defineStore('auth', {
           password: data.password,
           password_confirmation: data.password_confirmation
         })
-        this.router.push('/dashboard')
+        await this.getUser()
+        this.router.push('/')
       } catch (error) {
         if(error.response.status === 422){
           this.authErrors = error.response.data.errors
@@ -61,9 +65,10 @@ export const useAuthStore = defineStore('auth', {
       this.authErrors = []
       await this.getToken()
       try {
-        await axios.post('/forgot-password', {
+        const response = await axios.post('/forgot-password', {
           email: email
         })
+        this.authStatus = response.data.status 
       } catch (error) {
         if(error.response.status === 422){
           this.authErrors = error.response.data.errors

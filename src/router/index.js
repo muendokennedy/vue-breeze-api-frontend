@@ -18,11 +18,6 @@ const routes = [
     name: 'register'
   },
   {
-    path: '/dashboard',
-    component: () => import("../components/Dashboard.vue"),
-    name: 'dashboard'
-  },
-  {
     path: '/forgot-password',
     component: () => import("../components/Forgotpassword.vue"),
     name: 'forgotpassword'

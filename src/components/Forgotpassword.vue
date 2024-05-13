@@ -13,6 +13,7 @@ const email = ref('')
     <div class="form-container">
       <form @submit.prevent="authStore.handleForgotPassword(email)">
         <h2>Forgot password</h2>
+        <div class="status-text" v-if="authStore.status">{{ authStore.status }}</div>
         <div class="input-field">
           <input type="text" placeholder="Your Email" v-model="email" :style="{borderColor: authStore.errors.email ? 'red' : 'initial'}">
           <div v-if="authStore.errors.email">
@@ -85,5 +86,13 @@ const email = ref('')
   color: red;
   display: block;
   width: 100%;
+}
+.status-text{
+  background: #2b962b;
+  padding: 12px 0;
+  text-align: center;
+  color: #fff;
+  margin-top: 10px;
+  border-radius: 6px;
 }
 </style>
